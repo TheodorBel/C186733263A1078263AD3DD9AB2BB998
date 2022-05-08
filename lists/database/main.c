@@ -32,11 +32,9 @@ db_type *create_database(){
     return(new);
 };
 
-void db_insert(db_type *db, int aleksey){
-    t_node *newnode;
-    newnode = create_node(aleksey);
+void db_insert_end(db_type *db, t_node *new){
     if (db->first_node == NULL) { //Получается так, что это получается нода, если не было ни одной, то она запишется как первая.
-        db->first_node = newnode;
+        db->first_node = new;
         db->size = db->size + 1;
         return;
     }
@@ -45,34 +43,76 @@ void db_insert(db_type *db, int aleksey){
     while (last->next != NULL){
         last = last->next; // Слева то куда, справа то что присваиваю.
     }
-    last->next = newnode;
-    newnode->prev = last;
+    last->next = new;
+    new->prev = last;
+    db->size = db->size + 1;
 
+}
+
+void db_insert_front(db_type *db, t_node *new)
+{
+    t_node *tmp;
+    if (db->size == 0)
+    {
+        db->first_node = new;
+        db->size = db->size + 1;
+        return;
+    }
+    tmp = db->first_node;
+    db->first_node = new;
+    new->next = tmp;
+    tmp->prev = new;
+    db->size = db->size + 1;
+}
+
+void db_insert_mid(db_type *db, t_node *new, int index)
+{
+    t_node *last;
+    t_node *tmp;
+    int i = 0;
+    last = db->first_node;
+    while (last != NULL)
+    {
+        tmp = last->next;
+        last = tmp;
+        i++;
+        if ( index == i)
+            break;
+    }
+    new->next = tmp;
+    new->prev = tmp->prev;
+    tmp->prev = new;
+    last = new->prev;
+    last->next = new;
+    db->size = db->size + 1;
+}
+
+
+void db_insert(db_type *db, int value, int index){
+    t_node *new = create_node(value);
+    if (db->size < index || index < -1)
+    {
+        printf("index not found\n");
+        return;
+    }
+    if (db->size == index)
+    {
+        db_insert_end(db, new);
+        return;
+    }
+    if (db->size == 0 || index == -1)
+    {
+        db_insert_front(db, new);
+        return;
+    }
+    db_insert_mid(db, new, index);
 }
 
 int main() {
     db_type *db = create_database();
-    db_insert(db, rand() % 8);
-    db_insert(db, rand() % 8 );
-//    t_node *head;
-//    head = malloc(sizeof (t_node));
-//    head->num = rand() % 5;
-//    head->next = NULL;
-//    head->index = 0;
-//    head ->prev = NULL;
-//    t_node *tmp;
-//    head->next = tmp;
-//    t_node *last;
-//    last = head;
-
-//    for (int i = 0; i < 10; i++)
-//    {
-//        tmp = create_node();
-//        tmp->index = last->index +1;
-//        tmp->prev = last;
-//        last->next = tmp;
-//        last = tmp;
-//    }
-//
+    db_insert(db,0,-1);
+    db_insert(db,2,-1);
+    db_insert(db,1,-1);
+    db_insert(db,4,1);
     return 0;
 }
