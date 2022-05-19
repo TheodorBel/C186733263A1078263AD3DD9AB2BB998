@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 typedef struct q_node{
     int q_num;
     struct q_node *next;
