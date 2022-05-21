@@ -11,9 +11,13 @@ int main() {
     printf("%d\n",take_size_of_queue(queue));
     t_node *test_pop; 
     test_pop = pop(queue);
+    printf("Your Valuse: %d\n", test_pop->num);
     test_pop = pop(queue);
+    printf("Your Valuse: %d\n", test_pop->num);
     test_pop = pop(queue);
+    printf("Your Valuse: %d\n", test_pop->num);
     test_pop = pop(queue);
+    printf("Your Valuse: %d\n", test_pop->num);
     printf("%d\n",take_size_of_queue(queue));
 
 

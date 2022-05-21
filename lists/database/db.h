@@ -28,6 +28,7 @@ t_node *db_insert(db_type* db, t_node* new, int index);
 t_node *db_insert_by_index(db_type* db, int value, int index);
 int db_getsize(db_type* db);
 t_node* db_get_element_by_value(db_type* db, int value);
+t_node* db_pop_by_index(db_type* db, int index);
 
 
 
