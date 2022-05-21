@@ -1,3 +1,0 @@
-C:/Users/fedqa/Documents/GitHub/C186733263A1078263AD3DD9AB2BB998/lists/querueueu/cmake-build-debug/CMakeFiles/querueueu.dir
-C:/Users/fedqa/Documents/GitHub/C186733263A1078263AD3DD9AB2BB998/lists/querueueu/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/fedqa/Documents/GitHub/C186733263A1078263AD3DD9AB2BB998/lists/querueueu/cmake-build-debug/CMakeFiles/rebuild_cache.dir

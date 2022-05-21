@@ -5,6 +5,8 @@ t_node* create_node(int value)
 {
     t_node* new;
     new = malloc(sizeof(t_node));
+    if (new == NULL)
+        return NULL;
     new->num = value;
     new->next = NULL;
     new->prev = NULL;
@@ -14,6 +16,8 @@ t_node* create_node(int value)
 db_type* create_database() {
     db_type* new;
     new = malloc(sizeof(db_type));
+    if (new == NULL)
+        return NULL;
     new->size = 0;
     new->first_node = NULL;
     return(new);
@@ -51,6 +55,7 @@ t_node* db_pop_by_index(db_type* db, int index) {
     next = finder->next;
     if (index == 0) {
         db->first_node = finder->next;
+        db->first_node->prev = NULL;
         return finder;
     }
     if (index == db->size) {
