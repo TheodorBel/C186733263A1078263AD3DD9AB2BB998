@@ -1,0 +1,3 @@
+C:/Users/fedqa/Documents/GitHub/C186733263A1078263AD3DD9AB2BB998/lists/database/out/build/x64-Debug/CMakeFiles/database.dir
+C:/Users/fedqa/Documents/GitHub/C186733263A1078263AD3DD9AB2BB998/lists/database/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/fedqa/Documents/GitHub/C186733263A1078263AD3DD9AB2BB998/lists/database/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir

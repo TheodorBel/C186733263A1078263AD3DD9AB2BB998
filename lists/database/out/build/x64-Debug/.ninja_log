@@ -1,0 +1,4 @@
+# ninja log v5
+1	318	6748535998184913	CMakeFiles/database.dir/main.c.obj	1dad62d1beac3e2c
+5	319	6748535998174877	CMakeFiles/database.dir/source.c.obj	5bd05c0354b99e77
+319	619	6748536001084859	database.exe	61948e787a671987

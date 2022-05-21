@@ -4,4 +4,4 @@ project(database C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(database
-        main.c)
+        main.c source.c db.h)
