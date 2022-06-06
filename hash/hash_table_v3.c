@@ -85,11 +85,11 @@ t_node *get_element_by_key(ht_type *table, char *key){
     int index = hash_function(key,table->size);
     tmp = &(table->array[index]);
     if (tmp->next == NULL){
-        (strcmp(tmp->key, key) == 0);
+        if (strcmp(tmp->key, key) == 0){
         printf("%s\n",tmp->data);
         return (tmp);
         }
-
+    }
     while (tmp->next != NULL){
         if (strcmp(tmp->key, key) == 0){
            printf("%s\n",tmp->data);
@@ -98,13 +98,7 @@ t_node *get_element_by_key(ht_type *table, char *key){
         tmp = tmp->next;
     }
     printf("%s\n", "element not found");
-}
-
-t_node *delete_by_key(ht_type *table, char *key){
-    t_node *finder = get_element_by_key(table, key);
-    finder->data = NULL;
-    finder->key = NULL;
-    return (finder);    
+    return(NULL);
 }
 
 
@@ -116,5 +110,7 @@ int main(){
     insert(hash_table, "zzzzzzzzz", "free");
     insert(hash_table, "xxxxxxxx", "four");
     insert(hash_table, "ccccccccc", "five");
-    get_element_by_key(hash_table, "asd");
+    get_element_by_key(hash_table, "zzzzzzzzz");
+    get_element_by_key(hash_table, "xxxxxxxx");
+    get_element_by_key(hash_table, "ccccccccc");
 }
