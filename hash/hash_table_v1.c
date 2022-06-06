@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct s_node
-{
+typedef struct s_node{
     char *key;
     char *data;
     struct s_node* next;
@@ -81,8 +80,45 @@ char *insert(ht_type *table, char *key, char *data){
     return (new->data);
 }
 
+t_node *get_element_by_key(ht_type *table, char *key){
+    t_node *tmp;
+    int index = hash_function(key,table->size);
+    tmp = &(table->array[index]);
+    if (tmp->next == NULL){
+        (strcmp(tmp->key, key) == 0);
+        printf("%s\n",tmp->data);
+        return (tmp->data);
+        }
+
+    while (tmp->next != NULL){
+        if (strcmp(tmp->key, key) == 0){
+           printf("%s\n",tmp->data);
+           return (tmp);     
+        }
+        tmp = tmp->next;
+    }
+    printf("%s\n", "element not found");
+}
+
+t_node *delete_by_key(ht_type *table, char *key){
+    t_node *finder = get_element_by_key(table, key);
+    finder->data = NULL;
+    finder->key = NULL;
+    return (finder);    
+}
+
+
 int main(){
     ht_type *hash_table;
     hash_table = create_table(100);
-    insert(hash_table, "nonyanyanya", "DANNIE");
+    insert(hash_table, "qqqqqqqq", "one");
+    insert(hash_table, "asd", "two");
+    insert(hash_table, "zzzzzzzzz", "free");
+    insert(hash_table, "xxxxxxxx", "four");
+    insert(hash_table, "ccccccccc", "five");
+    get_element_by_key(hash_table, "asd");
+
+
+
+
 }
