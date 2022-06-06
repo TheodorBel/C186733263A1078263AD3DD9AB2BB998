@@ -87,7 +87,7 @@ t_node *get_element_by_key(ht_type *table, char *key){
     if (tmp->next == NULL){
         (strcmp(tmp->key, key) == 0);
         printf("%s\n",tmp->data);
-        return (tmp->data);
+        return (tmp);
         }
 
     while (tmp->next != NULL){
@@ -117,8 +117,4 @@ int main(){
     insert(hash_table, "xxxxxxxx", "four");
     insert(hash_table, "ccccccccc", "five");
     get_element_by_key(hash_table, "asd");
-
-
-
-
 }
