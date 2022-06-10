@@ -51,11 +51,32 @@ int hash_function(char *str, int size){
     return(key);
 }
 
+t_node *get_element_by_key(ht_type *table, char *key){
+    t_node *tmp;
+    int index = hash_function(key,table->size);
+    tmp = table->array[index];
+
+    if (tmp == NULL){ // esli net elementa po indexu
+        printf("empty base\n");
+        return (NULL);
+    }
+
+    while (tmp != NULL){ //esli est element
+        if (strcmp(tmp->key, key) == 0){
+           printf("%s\n",tmp->data);
+           return (tmp);     
+        }
+        tmp = tmp->next;
+    }                       
+    printf("key not found\n");
+    return(NULL); //esli net klucha
+}
+
 char *insert(ht_type *table, char *key, char *data){
     t_node *tmp;
     t_node *new;
     int index = hash_function(key,table->size);
-    tmp = get_element_by_key(table,key);
+    tmp = get_element_by_key(table, key);
 
     if (tmp != NULL){ //Перезапись по ключу
         free(tmp->data);
@@ -66,6 +87,7 @@ char *insert(ht_type *table, char *key, char *data){
     new = create_node(key,data);
     if (table->array[index] == NULL){ //В базе данных нет нод
         table->array[index] = new;
+        printf("%s\n", new->data);
         return(new->data);
     }
 
@@ -75,45 +97,27 @@ char *insert(ht_type *table, char *key, char *data){
     return (new->data);
 }
 
-t_node *get_element_by_key(ht_type *table, char *key){
-    t_node *tmp;
-    int index = hash_function(key,table->size);
-    tmp = table->array[index];
-
-    if (tmp == NULL){ // esli net elementa po indexu
-        printf("Base is empty\n");
-        return (NULL);
-    }
-
-    while (tmp != NULL){ //esli est element
-        if (strcmp(tmp->key, key) == 0){
-           printf("%s\n",tmp->data);
-           return (tmp);     
-        }
-        tmp = tmp->next;
-    }
-
-    printf("element not found\n"); //esli net klucha
-    return(NULL);
-}
-
-int collision(ht_type *table){
-    int sum = 0;
+int get_collision(ht_type *table){
     int count = 0;
     t_node *tmp;
-    for (int i = 0; i != table->size; i++){
-        tmp = table->array[i];
-        count = 0;
-        while (tmp->next != NULL){
-            if (tmp->next == NULL)
-                break;
-            count ++;
-            
-
+    for (int i = 0; i < table->size; i++)
+    {
+        if (table->array[i] == NULL)
+        {
+            continue;
         }
-        sum = sum + count;
+        else if (table->array[i]->next == NULL)
+        {
+            continue;
+        }
+        tmp = table->array[i];
+        while (tmp->next != NULL){
+            count++;
+            tmp = tmp->next;
+        }
+        i++;      
     }
-
+    return(count);    
 }
 
 t_node *delete_by_key(ht_type *table, char *key){
@@ -123,14 +127,25 @@ t_node *delete_by_key(ht_type *table, char *key){
     tmp = table->array[index];
     if (strcmp(table->array[index]->key,key) == 0){
        table->array[index] = tmp->next;
-       return (tmp);
+       free (tmp);
+       return (table->array[index]);
     }
-    while (tmp->next != NULL){
-        if (strcmp(tmp->next->key, key) == 0){
+    while (tmp->next != NULL)
+    {
+        if (strcmp(tmp->next->key, key) == 0)
+        {
             deleted = tmp->next;
+            if (tmp->next->next != NULL)
+            {
             tmp->next = tmp->next->next;
-            return (deleted);
+            free(deleted);
+            }
+            else
+            {
+                tmp->next == NULL;
+            } 
         }
+        tmp = tmp->next;
     }
 
 }
@@ -138,15 +153,12 @@ t_node *delete_by_key(ht_type *table, char *key){
 int main(){
     ht_type *hash_table;
     hash_table = create_table(10);
-    insert(hash_table, "qqqqqqqq", "one");
-    insert(hash_table, "asd", "two");
-    insert(hash_table, "zzzzzzzzz", "free");
-    insert(hash_table, "xxxxxxxx", "four");
-    insert(hash_table, "ccacccccc", "five");
-    insert(hash_table, "ccbcccccc", "five");
-    insert(hash_table, "ccccccccc", "five");
-    insert(hash_table, "ccccccccc", "five");
-    get_element_by_key(hash_table, "zzzzzzzzz");
-    get_element_by_key(hash_table, "xxxxxxxx");
-    get_element_by_key(hash_table, "ccccccccc");
+    insert(hash_table, "first", "1");
+    insert(hash_table, "ifrst", "2");
+    insert(hash_table, "ifrts", "3");
+    get_element_by_key (hash_table, "first");
+    get_element_by_key(hash_table, "ifrst");
+    get_element_by_key(hash_table, "ifrts");
+    int i = get_collision(hash_table);
+    printf("%d\n", i);
 }
