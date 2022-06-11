@@ -120,34 +120,33 @@ int get_collision(ht_type *table){
     return(count);    
 }
 
-t_node *delete_by_key(ht_type *table, char *key){
+char *delete_by_key(ht_type *table, char *key){
     t_node *tmp;
     t_node *deleted;
+    char *data;
     int index = hash_function(key, table->size);
     tmp = table->array[index];
     if (strcmp(table->array[index]->key,key) == 0){
        table->array[index] = tmp->next;
+       data = tmp->data;
+       free(tmp->key);
        free (tmp);
-       return (table->array[index]);
+       return (data);
     }
     while (tmp->next != NULL)
     {
         if (strcmp(tmp->next->key, key) == 0)
         {
             deleted = tmp->next;
-            if (tmp->next->next != NULL)
-            {
             tmp->next = tmp->next->next;
+            data = deleted->data;
+            free(deleted->key);
             free(deleted);
-            }
-            else
-            {
-                tmp->next == NULL;
-            } 
+            return(data);
         }
         tmp = tmp->next;
     }
-
+    return(NULL);
 }
 
 int main(){
