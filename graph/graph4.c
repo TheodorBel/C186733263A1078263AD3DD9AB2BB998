@@ -11,25 +11,22 @@ typedef struct graph{
     t_node *array; // Указатель на массив с вершинами
 }t_graph;
 
-typedef struct queue{ // Структура очереди для обхода в ширину
-    t_node *first;
-    t_node *last;
-}t_queue;
-
-void push(t_queue *queue, t_node *node){
-    if (queue->first == NULL){
-        queue->first = node;
-        queue->last = node;
-        return;
+t_node *append(t_node *list, t_node *new){
+    t_node *tmp = list;
+    if (tmp == NULL){
+        list = new;
+        return (list);
     }
-    queue->last->next = node;
-    queue->last = node;
-    return;
+    while (tmp->next != NULL){
+        tmp = tmp->next;
+    }
+    tmp->next = new;
+    return (list);
 }
 
-int search_in_queue(t_queue *queue, int vertex){
-    t_node *tmp = queue->first;
-    while (tmp->next != NULL){
+int search_in_list(t_node *list, int vertex){
+    t_node *tmp = list;
+    while (tmp != NULL){
         if (tmp->vertex == vertex)
             return (1);
         tmp = tmp->next;
@@ -90,42 +87,34 @@ void print_graph(t_graph *graph){
 
 }
 
+
 int breadth_first_search(t_graph *graph, int vert_start, int vert_finish){ // Поиск в ширину принимает граф и ноды начало и конец
     if (vert_start == vert_finish){
         return(0);
     }
     int counter = 1;
     t_node *tmp;
-    t_node *current = &(graph->array[vert_start]); // Нода текущая с которой начнется поиск в этой итерации
-    
-    t_queue *visited = malloc(sizeof(t_queue)); // Очередь для посещенных нод
-    visited->first = NULL;
-    visited->last = NULL;
+    t_node *visited = NULL;
+    t_node *to_visit = graph->array[vert_start].next; // Нода текущая с которой начнется поиск в этой итерации
+    t_node *to_visit_new = NULL;
+    tmp = to_visit;
 
-    t_queue *to_visit = malloc(sizeof(t_queue)); // Очередь для нод, которые надо посетить
-    to_visit->first = NULL;
-    to_visit->last = NULL;
-
-    to_visit->first = current->next;
-    tmp = to_visit->first;
     while(tmp != NULL){
         while (tmp != NULL){ // Через цикл идет сравнение вершин, если они совпали, то они в одном шаге
             if (tmp->vertex == vert_finish){
                 return(counter);
             }
-            if (search_in_queue(visited, tmp->vertex) == 0){ // Функция сравнивает есть ли в визитед нода и пушит если  нет
-                push(visited, create_node(tmp->vertex));
-                //ТУДУ добавить в очередь to_visit_new для следующей итерации graph->array[tmp->vertex]
+            if (search_in_list(visited, tmp->vertex) == 0){ // Функция сравнивает есть ли в визитед нода и пушит если  нет
+                visited = append(visited, create_node(tmp->vertex));
+                to_visit_new = append(to_visit_new, graph->array[tmp->vertex].next);
             }
             tmp = tmp->next;
         }
         counter++;
-      //TMP = to_visit_new  
-      // to_visit_new = NULL;
+        tmp = to_visit_new; 
+        to_visit_new = NULL;
     }
-
-    
-
+    return -1;    
 }
 
 
@@ -138,6 +127,7 @@ int main(){
     add_edge(graph,1,4);
     add_edge(graph,2,3);
     print_graph(graph);
-    breadth_first_search(graph, 0, 3);
+    int d = breadth_first_search(graph, 0, 3);
+    printf("steps = %d\n", d);
     return 0;
 }
