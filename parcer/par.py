@@ -37,6 +37,6 @@ while(1):
             continue
         
     end_time = time.ctime()            
-    print(time.ctime(), "done")
-    print("pages:", pages)
+    print(end_time(), "done")
+    print("pages:", pages)  
     break    
